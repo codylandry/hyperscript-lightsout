@@ -1,0 +1,140 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lights Out</title>
+    <meta name="description" content="">
+
+    <meta name="theme-color" content="#fafafa">
+
+
+    <script type="text/hyperscript">
+        def checkBoard
+          set activeCells to <.active/>
+          settle then
+
+          if activeCells.length == 0
+             toggle the *display of #result
+          end
+        end
+
+         js
+            function getCellsToToggle(cell) {
+              let result = [cell];
+              if (cell % 5 !== 0) result.push(cell + 1);
+              if (cell % 5 !== 1) result.push(cell - 1);
+              if (cell > 5) result.push(cell - 5);
+              if (cell < 21) result.push(cell + 5);
+              return result;
+            }
+            return { getCellsToToggle }
+        end
+
+
+        behavior Cell()
+             init
+                if Math.random() < 0.33
+                    toggle .active on me
+                end
+             end
+             on click
+                 set neighbors to getCellsToToggle(me.dataset.cell as Int)
+
+                 for neighbor in neighbors
+                     set thisCell to <[data-cell=`${neighbor}`]/>
+
+                     if thisCell
+                         toggle .active on thisCell
+                     end
+                 end
+
+                 call checkBoard()
+             end
+         end
+    </script>
+
+    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    <style>
+        /* .board is a grid of cells making the game 'Lights Out' */
+        .board {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-gap: 5px;
+            width: 370px;
+            height: 370px;
+            margin: 0 auto;
+            background: #333;
+            padding: 5px;
+        }
+
+        /* .cell is a single cell in the grid */
+        .cell {
+            width: 70px;
+            height: 70px;
+            background: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &.active {
+                background: #ff0;
+            }
+        }
+
+        #result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        #title {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="game">
+    <h1 id="title">Lights Out</h1>
+    <div class="board">
+        <div class="cell" data-cell="1" _="install Cell"></div>
+        <div class="cell" data-cell="2" _="install Cell"></div>
+        <div class="cell" data-cell="3" _="install Cell"></div>
+        <div class="cell" data-cell="4" _="install Cell"></div>
+        <div class="cell" data-cell="5" _="install Cell"></div>
+        <div class="cell" data-cell="6" _="install Cell"></div>
+        <div class="cell" data-cell="7" _="install Cell"></div>
+        <div class="cell" data-cell="8" _="install Cell"></div>
+        <div class="cell" data-cell="9" _="install Cell"></div>
+        <div class="cell" data-cell="10" _="install Cell"></div>
+        <div class="cell" data-cell="11" _="install Cell"></div>
+        <div class="cell" data-cell="12" _="install Cell"></div>
+        <div class="cell" data-cell="13" _="install Cell"></div>
+        <div class="cell" data-cell="14" _="install Cell"></div>
+        <div class="cell" data-cell="15" _="install Cell"></div>
+        <div class="cell" data-cell="16" _="install Cell"></div>
+        <div class="cell" data-cell="17" _="install Cell"></div>
+        <div class="cell" data-cell="18" _="install Cell"></div>
+        <div class="cell" data-cell="19" _="install Cell"></div>
+        <div class="cell" data-cell="20" _="install Cell"></div>
+        <div class="cell" data-cell="21" _="install Cell"></div>
+        <div class="cell" data-cell="22" _="install Cell"></div>
+        <div class="cell" data-cell="23" _="install Cell"></div>
+        <div class="cell" data-cell="24" _="install Cell"></div>
+        <div class="cell" data-cell="25" _="install Cell"></div>
+    </div>
+
+    <div id="result" style="display: none;">
+        You won!
+        <button onclick="location.reload()">Play again</button>
+    </div>
+
+</div>
+</body>
+
+</html>
